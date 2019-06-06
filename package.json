@@ -1,0 +1,23 @@
+{
+  "name": "stock-node",
+  "version": "1.0.0",
+  "description": "Stock Market App",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js"
+  },
+  "author": "Justin Hurley",
+  "license": "ISC",
+  "devDependencies": {
+    "body-parser": "^1.19.0",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "mongodb": "^3.2.6",
+    "request": "^2.88.0"
+  },
+  "dependencies": {
+    "foundation-sites": "^6.5.3",
+    "nodemon": "^1.19.0"
+  }
+}

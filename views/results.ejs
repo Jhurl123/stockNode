@@ -1,0 +1,86 @@
+
+<%- include('header.ejs', {title: buildParams.title}) -%>
+
+<%- include nav.ejs -%>
+
+<div class="container">
+    <div class="l-search_container">
+        <div class="row">
+            <% for(var i=0; i < buildParams.stock.length; i++) { %>
+                <div class="col-md-6 col-sm-12">
+                    <div class="c-search_card">
+
+                        <h3 class="c-search_card-headline">
+                            <%= buildParams.stock[i]['symbol']; %>
+                        </h3>
+
+                        <h4 class="c-search_card-name">
+                            <%= buildParams.stock[i]['name']; %>
+                        </h4>
+
+                        <span class="c-search_card-price">
+                            <%= buildParams.stock[i]['price']; %>
+                        </span>
+
+                        <span class="c-search_card-price-subtitle">
+                            Price
+                        </span>
+
+                        <form class="stock-view" action="" method="POST">
+                            <input type="hidden" name="stock-searched" class="c-stock-input" value="<%= buildParams.stock[i]['symbol']; %>"/>
+                            <button type="submit" class="c-search-view-button btn btn-success btn-sm" data-toggle="modal" data-target="#viewModal">
+                                View
+                            </button>
+                        </form>
+
+                    </div>
+                </div>
+            <% }%>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="viewModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"></h5>
+            </div>
+
+            <div class="alert alert-success" role="alert">
+                Stock added to Favorites!
+            </div>
+
+            <div class="alert alert-danger" role="alert">
+                Stock Removed from Favorites!
+            </div>
+            
+            <div class="row">
+
+            <div class="col-md-d">
+                <span class="modal-stock-symbol"></span>
+
+                <div class="spinner-border text-info" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+
+                <form class="stock-remove is-hidden" action="" method="POST">
+                    <input type="hidden" name="stock-searched" class="c-stock-input modal-input"/>
+                    <button type="submit" class="c-search-remove-button btn btn-danger btn-sm">
+                    Remove
+                    </button>
+                </form>
+
+                <form class="stock-add is-hidden" action="" method="POST">
+                    <input type="hidden" name="stock-searched" class="c-stock-input-add"/>
+                    <button type="submit" class="c-search-add-button btn btn-danger btn-sm">
+                        Add
+                    </button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include footer.ejs %>
