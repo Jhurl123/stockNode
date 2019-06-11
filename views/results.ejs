@@ -41,11 +41,8 @@
 </div>
 
 <div class="modal" id="viewModal">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title"></h5>
-            </div>
 
             <div class="alert alert-success" role="alert">
                 Stock added to Favorites!
@@ -55,29 +52,64 @@
                 Stock Removed from Favorites!
             </div>
             
-            <div class="row">
+            <div class="spinner-border text-info" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
 
-            <div class="col-md-d">
-                <span class="modal-stock-symbol"></span>
+            <div class="container-fluid modal-upper-container">
+                <div class="row">
 
-                <div class="spinner-border text-info" role="status">
-                    <span class="sr-only">Loading...</span>
+                    <div class="col-md-6">
+                        <h3 class="modal-title"></h3>
+                        <span class="modal-stock-name"></span>
+                        <span class="modal-stock-market"></span>
+ 
+                    </div>
+                    
+                    <div class="col-md-6">
+
+                        <div class="modal-stock-stats-container">
+                            <span class="modal-stock-price"></span>
+                            <span class="modal-stock-percent"></span>
+                        
+                        </div>
+                        
+
+                    </div>
+
                 </div>
-
+                
+                
+                
                 <form class="stock-remove is-hidden" action="" method="POST">
-                    <input type="hidden" name="stock-searched" class="c-stock-input modal-input"/>
+                    <input type="hidden" name="stock-searched" class="c-stock-input-remove"/>
                     <button type="submit" class="c-search-remove-button btn btn-danger btn-sm">
-                    Remove
+                        Remove
                     </button>
                 </form>
-
+                
                 <form class="stock-add is-hidden" action="" method="POST">
                     <input type="hidden" name="stock-searched" class="c-stock-input-add"/>
-                    <button type="submit" class="c-search-add-button btn btn-danger btn-sm">
+                    <button type="submit" class="c-search-add-button btn btn-success btn-sm">
                         Add
                     </button>
                 </form>
+            </div>
+            <div class="modal-stock-stats-bar">
+                
+                <div class="stock-stats-section">
 
+                </div>
+                <div class="stock-stats-section">
+                    
+                </div>
+                <div class="stock-stats-section">
+                    
+                </div>
+                <div class="stock-stats-section">
+                    
+                </div>
+        
             </div>
         </div>
     </div>

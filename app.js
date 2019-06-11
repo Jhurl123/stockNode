@@ -83,7 +83,6 @@ server.app.get('/dashboard', function(request, response) {
             //TODO loop throigh here and
             //populate stock array
             buildParams.stockArray.push(stockStats);
-            console.log(buildParams.stockArray);
 
         });
 
@@ -186,9 +185,12 @@ server.app.post('/removeStock', function(request, response) {
 // Means that the event will need to be put into sepatrate events module
 server.app.post('/viewStock', function(request, response) {
 
+    //get favorites from DB - Check is passed as optional param to change event emitted from db method
     db.getFavorites('check');
     let callType = 'modal';
     var buildParams = {};
+    
+    //Event listener that gets the stock data from api
     db.events.once('endCheck', function(favorites) {
        
         buildParams.favorites = favorites;
@@ -197,25 +199,17 @@ server.app.post('/viewStock', function(request, response) {
 
     apiCalls.events.once('endModal', function(stock) {
 
-        let stockPercentage = stock['data'][0]['change_pct'];
+        console.log(stock);
+      
         let stockHigh       = stock['data'][0]['day_high'];
         stockHigh           = parseFloat(stockHigh, 10);
-
-        let stockStats = {
-            'symbol': stock['data'][0]['symbol'],
-            'name':  stock['data'][0]['name'],
-            'percentChange': stockPercentage,
-            'high': stockHigh
-        };
-
-        //TODO loop throigh here and
-        //populate stock array
+        let stockStats = stock['data'][0];
        
         for(let i = 0; i < buildParams.favorites.length; i++) {
             if(stockStats['symbol'] == buildParams.favorites[i].Stock ) {
                 stockStats.present = 'yes'
                 break;
-            }   
+            }
         }
 
         response.writeHead(200, { 'Content-Type': 'application/json' });  

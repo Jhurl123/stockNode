@@ -3,8 +3,9 @@ $("document").ready(function() {
 addStockListener();
 removeStockListener();
 ViewResultModal();
+var modalElement = getModalElements();
 
-// function to call the 
+// function to call use AJAX to sumbit the stock to the backend to get data
 function addStockListener() {
 
     var addStockForms = document.querySelectorAll('.stock-add');
@@ -15,8 +16,7 @@ function addStockListener() {
         notification.style.display="block";
 
         stock = e.target.querySelector('.c-stock-input-add').value;
-        
-        console.log(stock);
+
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.open("POST", "/addStock");
         xmlhttp.setRequestHeader("Content-Type", "application/json");
@@ -40,9 +40,7 @@ function removeStockListener() {
 
         let alert = document.querySelector('.alert-danger');
         alert.style.display = "block";
-        let stock = e.target.querySelector('.c-stock-input').value;
-        console.log(stock);
-        
+        let stock = e.target.querySelector('.c-stock-input-remove').value;
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.open("POST", "/removeStock");
         xmlhttp.setRequestHeader("Content-Type", "application/json");
@@ -56,6 +54,28 @@ function removeStockListener() {
 
 }
 
+
+function getModalElements() {
+
+    let modalElement = {
+        removeInput:       document.querySelector('.c-stock-input-remove'),
+        removeButton:      document.querySelector('.stock-remove'),
+        addInput:          document.querySelector('.c-stock-input-add'),
+        addButton:         document.querySelector('.stock-add'),
+        spinner:           document.querySelector('.spinner-border'),
+        modalTitle:        document.querySelector('.modal-title'),
+        modalStockName:    document.querySelector('.modal-stock-name'),
+        modalStockMarket:  document.querySelector('.modal-stock-market'),
+        modalStockPercent: document.querySelector('.modal-stock-percent'),
+        modalPrice:        document.querySelector('.modal-stock-price'),
+        removeAlert:       document.querySelector('.alert-danger'),
+        addAlert:          document.querySelector('.alert-success')
+  
+    };
+
+    return modalElement;
+}
+
 function ViewResultModal() {
 
     var viewForms = document.querySelectorAll('.stock-view');
@@ -64,15 +84,12 @@ function ViewResultModal() {
         
         e.preventDefault();
 
-        let removeButton = document.querySelector('.stock-remove');
-        let addButton    = document.querySelector('.stock-add');
-        let spinner      = document.querySelector('.spinner-border');
-        let modalSymbol  = document.querySelector('.modal-stock-symbol');
-        let modalTitle   = document.querySelector('.modal-title');
+        modalElement.removeButton.classList.remove('is-visible');
+        modalElement.removeButton.classList.add('is-hidden');
 
-        modalSymbol.textContent = "";
-        modalTitle.textContent = "";
-        spinner.style.display = "block";
+        modalElement.modalPrice.textContent = "";
+        modalElement.modalTitle.textContent = "";
+        modalElement.spinner.style.display = "block";
         
         stock = e.target.querySelector('.c-stock-input').value;
         
@@ -98,54 +115,65 @@ function ViewResultModal() {
 
 }
 
+//Method that populates the View Modal with the data AJAX'd in from the ViewResultModal function
 function PopulateModal(body) {
-
     
-    body         = JSON.parse(body);
-    let modal    = document.querySelector('#viewModal'),
-    modalTitle   = document.querySelector('.modal-title'),
-    modalInput   = document.querySelector('.modal-input'),
-    removeButton = document.querySelector('.stock-remove'),
-    addButton    = document.querySelector('.stock-add'),
-    spinner      = document.querySelector('.spinner-border'),
-    addInput     = document.querySelector('.c-stock-input-add'),
-    modalSymbol  = document.querySelector('.modal-stock-symbol');
+    body  = JSON.parse(body);
 
-    spinner.style.display = "none";
+    modalElement.removeButton.classList.remove('is-visible');
+    modalElement.spinner.style.display = "none";
     
     if(body) {
-        addInput.value = body['symbol'];
-        addButton.classList.add('is-visible');
-        modalTitle.textContent = body['symbol'];
-        modalSymbol.textContent = body['percentChange'];
-        modalInput.value = body['symbol'];
+        modalElement.addInput.value             = body['symbol'];
+        modalElement.removeInput.value          = body['symbol'];
         
+        modalElement.modalTitle.textContent     = body['symbol'];
+        modalElement.modalStockName.textContent = body['name'];
+        modalElement.modalPrice.textContent     = body['price'];
+
+        if(body['change_pct']) {
+            changePercentage = parseFloat(body['change_pct']);
+            
+            if(changePercentage >= 0) {
+                modalElement.modalStockPercent.textContent  = body['change_pct'];
+                modalElement.modalStockPercent.style.color  = "green";
+            }
+            else {
+                modalElement.modalStockPercent.textContent = body['change_pct'];
+                modalElement.modalStockPercent.style.color = "red";
+            }
+        }
+        modalElement.modalStockMarket.textContent   = body['stock_exchange_long'];
+        
+        modalElement.addButton.classList.add('is-visible');
     }
 
     if(body['present']) {
-        console.log(body['present']);
-        removeButton.classList.add('is-visible');
-        removeButton.classList.remove('is-hidden');
+        modalElement.addButton.classList.remove('is-visible');
+        modalElement.addButton.classList.add('is-hidden');
+        modalElement.removeButton.classList.add('is-visible');
+        modalElement.removeButton.classList.remove('is-hidden');
     }
     else {
-     
+        modalElement.removeButton.classList.remove('is-visible');
     }
 
 
 }
 
-function removeClasses() {
-
-}
-
+//Removal of styling/data when the 'view' modal is closed
 $('#viewModal').on('hidden.bs.modal', function(e) {
 
-    let removeAlert = document.querySelector('.alert-danger');
-    let addAlert = document.querySelector('.alert-success');
-    let addButton = document.querySelector('.stock-add');
-    addButton.style.display = "none";
-    addAlert.style.display = "none";
-    removeAlert.style.display = "none";
+    //remove visible styles so that they can be determined on modal popup
+    modalElement.removeButton.classList.remove('is-visible');
+    modalElement.addButton.classList.remove('is-visible');
+    modalElement.addAlert.style.display = "none";
+    modalElement.removeAlert.style.display = "none";
+
+    for( var key in modalElement) {
+        console.log(modalElement[key]);
+        modalElement[key].textContent = "";
+    }
 
 });
 });

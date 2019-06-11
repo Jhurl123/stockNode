@@ -96,6 +96,7 @@ exports.searchStocks = function(type, symbol) {
                         emitter.emit('endModal', stock);
                     }
                     else if(stock && type  === 'single') {
+                        console.log("endSingleAPICAll");
                         emitter.emit('endSingle', stock);
                     }
                     else {
