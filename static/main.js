@@ -68,8 +68,13 @@ function getModalElements() {
         modalStockMarket:  document.querySelector('.modal-stock-market'),
         modalStockPercent: document.querySelector('.modal-stock-percent'),
         modalPrice:        document.querySelector('.modal-stock-price'),
-        removeAlert:       document.querySelector('.alert-danger'),
-        addAlert:          document.querySelector('.alert-success')
+        removeAlert:       document.querySelector('.modal-alert.alert-danger'),
+        addAlert:          document.querySelector('.modal-alert.alert-success'),
+        stocksBar:         document.querySelector('.modal-stock-stats-bar'),
+        yearHighHeader:    document.querySelector('.stock-stats-header-year-high'),
+        yearHighStat:      document.querySelector('.stock-stats-stat-year-high'),
+        yearLowHeader:     document.querySelector('.stock-stats-header-year-low'),
+        yearLowStat:       document.querySelector('.stock-stats-stat-year-low'),
   
     };
 
@@ -86,6 +91,7 @@ function ViewResultModal() {
 
         modalElement.removeButton.classList.remove('is-visible');
         modalElement.removeButton.classList.add('is-hidden');
+        modalElement.stocksBar.style.display = "none";
 
         modalElement.modalPrice.textContent = "";
         modalElement.modalTitle.textContent = "";
@@ -124,13 +130,18 @@ function PopulateModal(body) {
     modalElement.spinner.style.display = "none";
     
     if(body) {
+        //section to populate the values of the modal
         modalElement.addInput.value             = body['symbol'];
         modalElement.removeInput.value          = body['symbol'];
-        
         modalElement.modalTitle.textContent     = body['symbol'];
         modalElement.modalStockName.textContent = body['name'];
         modalElement.modalPrice.textContent     = body['price'];
-
+        modalElement.yearHighHeader.textContent = "52 Week High";
+        modalElement.yearHighStat.textContent  = body['52_week_high'];   
+        modalElement.yearLowHeader.textContent  = "52 Week Low";
+        modalElement.yearLowStat.textContent  = body['52_week_low'];   
+        
+        modalElement.stocksBar.style.display    = "block";
         if(body['change_pct']) {
             changePercentage = parseFloat(body['change_pct']);
             

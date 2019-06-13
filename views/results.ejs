@@ -6,36 +6,44 @@
 <div class="container">
     <div class="l-search_container">
         <div class="row">
-            <% for(var i=0; i < buildParams.stock.length; i++) { %>
-                <div class="col-md-6 col-sm-12">
-                    <div class="c-search_card">
+            <% if(buildParams.stock.length > 0 ) { %>
+                <% for(var i=0; i < buildParams.stock.length; i++) { %>
+                    <div class="col-md-6 col-sm-12">
+                        <div class="c-search_card">
 
-                        <h3 class="c-search_card-headline">
-                            <%= buildParams.stock[i]['symbol']; %>
-                        </h3>
+                            <h3 class="c-search_card-headline">
+                                <%= buildParams.stock[i]['symbol']; %>
+                            </h3>
 
-                        <h4 class="c-search_card-name">
-                            <%= buildParams.stock[i]['name']; %>
-                        </h4>
+                            <h4 class="c-search_card-name">
+                                <%= buildParams.stock[i]['name']; %>
+                            </h4>
 
-                        <span class="c-search_card-price">
-                            <%= buildParams.stock[i]['price']; %>
-                        </span>
+                            <span class="c-search_card-price">
+                                <%= buildParams.stock[i]['price']; %>
+                            </span>
 
-                        <span class="c-search_card-price-subtitle">
-                            Price
-                        </span>
+                            <span class="c-search_card-price-subtitle">
+                                Price
+                            </span>
 
-                        <form class="stock-view" action="" method="POST">
-                            <input type="hidden" name="stock-searched" class="c-stock-input" value="<%= buildParams.stock[i]['symbol']; %>"/>
-                            <button type="submit" class="c-search-view-button btn btn-success btn-sm" data-toggle="modal" data-target="#viewModal">
-                                View
-                            </button>
-                        </form>
+                            <form class="stock-view" action="" method="POST">
+                                <input type="hidden" name="stock-searched" class="c-stock-input" value="<%= buildParams.stock[i]['symbol']; %>"/>
+                                <button type="submit" class="c-search-view-button btn btn-success btn-sm" data-toggle="modal" data-target="#viewModal">
+                                    View
+                                </button>
+                            </form>
 
+                        </div>
                     </div>
+                <% }%>
+            <% }
+            else { %>  
+                <div class="alert results-alert alert-danger" role="alert">
+                    Sorry, no Results Found!
                 </div>
             <% }%>
+
         </div>
     </div>
 </div>
@@ -44,11 +52,11 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
 
-            <div class="alert alert-success" role="alert">
+            <div class="alert modal-alert alert-success" role="alert">
                 Stock added to Favorites!
             </div>
 
-            <div class="alert alert-danger" role="alert">
+            <div class="alert modal-alert alert-danger" role="alert">
                 Stock Removed from Favorites!
             </div>
             
@@ -79,9 +87,29 @@
 
                 </div>
                 
+            </div>
+            <div class="modal-stock-stats-bar">
                 
-                
-                <form class="stock-remove is-hidden" action="" method="POST">
+                <div class="stock-stats-section">
+                    <span class="stock-stats-header-year-high"></span>
+                    <span class="stock-stats-stat-year-high"></span>
+                </div>
+                <div class="stock-stats-section">
+                    <span class="stock-stats-header-year-low"></span>
+                    <span class="stock-stats-stat-year-low"></span>
+                </div>
+                <div class="stock-stats-section">  
+                    <span class="stock-stats-header-day-high"></span>
+                    <span class="stock-stats-stat-day-high"></span>
+                </div>
+                <div class="stock-stats-section">
+                    <span class="stock-stats-header-day-low"></span>
+                    <span class="stock-stats-stat-day-low"></span>
+                </div>
+        
+            </div>
+                 
+            <form class="stock-remove is-hidden" action="" method="POST">
                     <input type="hidden" name="stock-searched" class="c-stock-input-remove"/>
                     <button type="submit" class="c-search-remove-button btn btn-danger btn-sm">
                         Remove
@@ -94,23 +122,6 @@
                         Add
                     </button>
                 </form>
-            </div>
-            <div class="modal-stock-stats-bar">
-                
-                <div class="stock-stats-section">
-
-                </div>
-                <div class="stock-stats-section">
-                    
-                </div>
-                <div class="stock-stats-section">
-                    
-                </div>
-                <div class="stock-stats-section">
-                    
-                </div>
-        
-            </div>
         </div>
     </div>
 </div>

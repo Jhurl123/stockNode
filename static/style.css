@@ -133,11 +133,11 @@ body {
     position: relative;
 }
 
-.alert-success {
+.modal-alert.alert-success {
     display: none;
 }
 
-.alert-danger {
+.modal-alert.alert-danger {
     display: none;
 }
 
@@ -147,6 +147,10 @@ body {
 
 .modal-container-upper {
     padding: 1.75rem 2.4rem;
+}
+
+.modal-content {
+    border: none;
 }
 
 .modal-title {
@@ -180,6 +184,7 @@ body {
     width: 100%;
     height: 100px;
     background: #6D7993;
+    position: relative;
 }
 
 .c-favorite-card {
@@ -191,6 +196,17 @@ body {
 }
 
 .stock-stats-section {
-    border-right: 2px #fff solid;
+    border-right: 1px #fff solid;
+    display: inline-block;
+    height: 100%;
     width: 25%;
+    float: left;
+}
+
+.stock-stats-section:last-of-type {
+    border: none;
+}
+
+.results-alert {
+    width: 100%;
 }
