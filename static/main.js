@@ -71,10 +71,10 @@ function getModalElements() {
         removeAlert:       document.querySelector('.modal-alert.alert-danger'),
         addAlert:          document.querySelector('.modal-alert.alert-success'),
         stocksBar:         document.querySelector('.modal-stock-stats-bar'),
-        yearHighHeader:    document.querySelector('.stock-stats-header-year-high'),
         yearHighStat:      document.querySelector('.stock-stats-stat-year-high'),
-        yearLowHeader:     document.querySelector('.stock-stats-header-year-low'),
         yearLowStat:       document.querySelector('.stock-stats-stat-year-low'),
+        dayHighStat:      document.querySelector('.stock-stats-stat-day-high'),
+        dayLowStat:       document.querySelector('.stock-stats-stat-day-low'),
   
     };
 
@@ -136,10 +136,10 @@ function PopulateModal(body) {
         modalElement.modalTitle.textContent     = body['symbol'];
         modalElement.modalStockName.textContent = body['name'];
         modalElement.modalPrice.textContent     = body['price'];
-        modalElement.yearHighHeader.textContent = "52 Week High";
-        modalElement.yearHighStat.textContent  = body['52_week_high'];   
-        modalElement.yearLowHeader.textContent  = "52 Week Low";
-        modalElement.yearLowStat.textContent  = body['52_week_low'];   
+        modalElement.yearHighStat.textContent   = body['52_week_high'];   
+        modalElement.yearLowStat.textContent    = body['52_week_low'];   
+        modalElement.dayLowStat.textContent     = body['day_low'];
+        modalElement.dayHighStat.textContent     = body['day_high'];
         
         modalElement.stocksBar.style.display    = "block";
         if(body['change_pct']) {

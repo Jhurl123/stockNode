@@ -27,7 +27,7 @@
                                 Price
                             </span>
 
-                            <form class="stock-view" action="" method="POST">
+                            <form class="stock-view" action="" method="POST"></form>
                                 <input type="hidden" name="stock-searched" class="c-stock-input" value="<%= buildParams.stock[i]['symbol']; %>"/>
                                 <button type="submit" class="c-search-view-button btn btn-success btn-sm" data-toggle="modal" data-target="#viewModal">
                                     View
@@ -49,7 +49,7 @@
 </div>
 
 <div class="modal" id="viewModal">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
 
             <div class="alert modal-alert alert-success" role="alert">
@@ -60,8 +60,10 @@
                 Stock Removed from Favorites!
             </div>
             
-            <div class="spinner-border text-info" role="status">
-                <span class="sr-only">Loading...</span>
+            <div class="spinner-container">
+                <div class="spinner-border text-info" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
             </div>
 
             <div class="container-fluid modal-upper-container">
@@ -91,37 +93,39 @@
             <div class="modal-stock-stats-bar">
                 
                 <div class="stock-stats-section">
-                    <span class="stock-stats-header-year-high"></span>
+                    <span class="stock-stat-header stock-stats-header-year-high">52 Week High</span>
                     <span class="stock-stats-stat-year-high"></span>
                 </div>
                 <div class="stock-stats-section">
-                    <span class="stock-stats-header-year-low"></span>
-                    <span class="stock-stats-stat-year-low"></span>
+                    <span class="stock-stat-header stock-stats-header-year-low">52 Week Low</span>
+                    <span class="stock-stat stock-stats-stat-year-low"></span>
                 </div>
                 <div class="stock-stats-section">  
-                    <span class="stock-stats-header-day-high"></span>
-                    <span class="stock-stats-stat-day-high"></span>
+                    <span class="stock-stat-header stock-stats-header-day-high">Day High</span>
+                    <span class="stock-stat stock-stats-stat-day-high"></span>
                 </div>
                 <div class="stock-stats-section">
-                    <span class="stock-stats-header-day-low"></span>
-                    <span class="stock-stats-stat-day-low"></span>
+                    <span class="stock-stat-header stock-stats-header-day-low">Day Low</span>
+                    <span class="stock-stat stock-stats-stat-day-low"></span>
                 </div>
         
             </div>
                  
-            <form class="stock-remove is-hidden" action="" method="POST">
+            <div class="modal-button-container">
+                <form class="stock-remove is-hidden" action="" method="POST">
                     <input type="hidden" name="stock-searched" class="c-stock-input-remove"/>
-                    <button type="submit" class="c-search-remove-button btn btn-danger btn-sm">
+                    <button type="submit" class="c-search-remove-button btn btn-danger">
                         Remove
                     </button>
                 </form>
-                
+                    
                 <form class="stock-add is-hidden" action="" method="POST">
                     <input type="hidden" name="stock-searched" class="c-stock-input-add"/>
-                    <button type="submit" class="c-search-add-button btn btn-success btn-sm">
+                    <button type="submit" class="c-search-add-button btn btn-success">
                         Add
                     </button>
                 </form>
+            </div>
         </div>
     </div>
 </div>
