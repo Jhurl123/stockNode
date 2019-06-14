@@ -1,0 +1,46 @@
+.c-search_card {
+
+
+    width: 70%;
+    margin: 1em auto;
+    background: #fff;
+    border-radius: 5px;
+    padding: 24px 16px;
+    box-shadow: 1px 4px 4px 2px #888888;
+    text-align: center;
+    
+    &-headline {
+        width: 100%;
+        text-align: center;
+    }
+
+    &-name {
+        text-align: center;
+        padding-bottom: .5em;
+        font-size: 1.2rem;
+    }
+
+    &-price {
+        font-size: 2em;
+        display: block;
+        text-align: center;
+        line-height: 1;
+
+    }
+
+    &-price-subtitle {
+        text-align: center;
+        display: block;
+        color: gray;
+    }
+
+    &-view-button {
+        margin: 1em;
+        margin-bottom: 0;
+    }
+    
+    .stock-view {
+        text-align: center;
+    }
+
+}
