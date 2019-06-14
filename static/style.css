@@ -1,157 +1,8 @@
-html {
-    width: 100%;
-}
 
-header {
-    width: 100%;
-    background-color: #6D7993;
-}
-
-body {
-    margin: 0;
-    padding: 0;
-    background-color: #d5d5d5;
-}
-
-*,
-*:after,
-*.before {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-.c-header_container {
-    width: 100%;
-    padding: 1.75em;
-    padding: 1.75em 8em;
-    margin-bottom: 2rem;
-    
-}
-
-.c-header_lead {
-    width: 50%;
-    display: inline-block;
-}
-
-.c-header_headline {
-    margin: 0;
-    font-size: 2.125em;
-    color: #fff;    
-    font-family: helvetica;
-}
-
-.c-header_headline a {
-    margin: 0;
-    color: #fff;
-    text-decoration: none;
-}
-
-.c-header_search_wrapper {
-    position: relative;
-    display: inline-block;
-    float: right;
-}
-
-.c-header_search { 
-    border-radius: 20px;
-    padding: 9px 0 7px 16px;  
-}
-
-.c-header_search-button {
-    background: none;
-    border: none;
-    width: 16px;
-    position: absolute;
-    right: 1em;
-    top: 8px;
-    color: gray;
-    
-}
 
 .l-search_container {
     width: 80%;
     margin: 0 auto;
-}
-
-.stock-add {
-    text-align: center;
-}
-
-.is-hidden {
-    display: none;
-}
-
-.is-visible {
-    display: block;
-}
-
-.modal-dialog {
-    position: relative;
-}
-
-.modal-alert.alert-success {
-    display: none;
-}
-
-.modal-alert.alert-danger {
-    display: none;
-}
-
-.modal-stock-name {
-    font-size: 1.5rem;
-}
-
-.modal-container-upper {
-    padding: 1.75rem 2.4rem;
-}
-
-.modal-content {
-    border: none;
-    min-height: 9rem;
-}
-
-.modal-title {
-    font-size: 2.85rem;
-    font-weight: 400;
-}
-
-.modal-stock-market {
-    display: block;
-    color: #d2d2d2;
-}
-
-.modal-stock-percent {
-    display: block;
-    font-size: 2rem;
-    text-align: center;
-}
-
-.modal-stock-price {
-    display: block;
-    font-size: 2.5rem;
-    text-align: center;
-
-}
-
-.modal-stock-stats-container {
-    margin-top: 1.75rem;
-}
-
-.modal-stock-stats-bar {
-    width: 100%;
-    height: 100px;
-    background: #c0b8b8;
-    color: #fff;
-    position: relative;
-}
-
-.c-favorite_card {
-    background: #fff;
-    padding: 2rem;
-    text-align: center;
-    border-radius: 4px;
-    margin: 1em 1em;
 }
 
 .stock-stats-section {
@@ -172,7 +23,7 @@ body {
     width: 100%;
 }
 
-.spinner-container {
+.modal-spinner-container {
     position: absolute;
     top: 50%;
     left: 50%;

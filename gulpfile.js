@@ -4,7 +4,8 @@ var gulp  = require('gulp'),
     gutil = require('gulp-util'),
     filter = require('gulp-filter'),
     touch = require('gulp-touch-cmd'),
-    plugin = require('gulp-load-plugins')();
+	plugin = require('gulp-load-plugins')(),
+	nodemon = require('gulp-nodemon');
 
 
 // GULP VARIABLES
