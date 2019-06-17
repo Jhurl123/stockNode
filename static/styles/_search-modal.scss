@@ -63,4 +63,47 @@
         color: #fff;
         position: relative;
     }
+
+    &-button-container {
+        padding: 1.5rem;
+    }
+    
+    &-button-container .btn {
+        padding: 0.5rem 3rem;
+    }
+
+    &-spinner-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+    }
+}
+
+.stock-stats {
+    display: block;
+
+    &-section {
+        border-right: 1px #fff solid;
+        display: inline-block;
+        height: 100%;
+        width: 25%;
+        float: left;
+        text-align: center;
+        padding: 1rem;
+    }
+
+    &-section:last-of-type {
+        border: none;
+    }
+
+   &-header {
+        font-weight: bold;
+        display: block;
+    }
+
+}
+
+.results-alert {
+    width: 100%;
 }

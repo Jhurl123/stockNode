@@ -22,7 +22,8 @@ const SOURCE = {
     // ],
 
 	// Scss files will be concantonated, minified if ran with --production
-    styles: 'static/styles/**/*.scss',
+	styles: 'static/styles/**/*.scss',
+	root: './**/*'
     
 };
 
@@ -94,6 +95,15 @@ gulp.task('styles', function() {
 		.pipe(touch());
 });
 
+gulp.task('start', function(done) {
+	nodemon({
+		script: 'app.js',
+		ext: 'js html ejs scss',
+		env: {'NODE_ENV': 'development'},
+		done: done
+	});
+});
+
 // Watch files for changes (without Browser-Sync)
 gulp.task('watch', function() {
 
@@ -105,8 +115,19 @@ gulp.task('watch', function() {
 
 	// Watch images files
 	//gulp.watch(SOURCE.images, gulp.parallel('images'));
+	//gulp.watch(SOURCE.root, gulp.parallel('start'));
 
 });
 
 // Run styles, scripts and foundation-js
-gulp.task('default', gulp.parallel('styles'));
+gulp.task('default', function() {
+
+	gulp.watch(SOURCE.styles, gulp.parallel('styles'));
+
+	//gulp.watch(SOURCE.root, gulp.parallel('start'));
+
+});
+
+var watchChanges = gulp.series(gulp.parallel('default','start'));
+
+exports.watchNew = watchChanges;

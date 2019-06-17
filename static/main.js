@@ -1,12 +1,13 @@
 $("document").ready(function() {
 
-addStockListener();
-removeStockListener();
+AddStockListener();
+RemoveStockListener();
 ViewResultModal();
+OpenSearchBox();
 var modalElement = getModalElements();
 
 // function to call use AJAX to sumbit the stock to the backend to get data
-function addStockListener() {
+function AddStockListener() {
 
     var addStockForms = document.querySelectorAll('.stock-add');
 
@@ -32,7 +33,7 @@ function addStockListener() {
 
 
 //Listener to POST remove data to server
-function removeStockListener() {
+function RemoveStockListener() {
 
     var removeStockForms = document.querySelectorAll('.stock-remove');
     const removeStockHandler = function(e) {
@@ -86,7 +87,7 @@ function ViewResultModal() {
     var viewForms = document.querySelectorAll('.stock-view');
 
     const ViewStockHandler = function(e) {
-        
+        console.log("meow");
         e.preventDefault();
 
         modalElement.removeButton.classList.remove('is-visible');
@@ -170,6 +171,30 @@ function PopulateModal(body) {
     }
 
 
+}
+
+function OpenSearchBox() {
+
+    let addButton = document.querySelector('.c-favorite_add-button'),
+        buttonContainer = document.querySelector('.c-favorite_add-circle'),
+        searchContainer = document.querySelector('.c-favorite_search-container'),
+        input  = searchContainer.querySelector('.c-header_search input');
+
+    var openSearch = function() {
+        addButton.classList.add('is-hidden');
+        addButton.classList.remove('is-visible');
+        // input.classList.add('is-visible');
+        // input.classList.add('is-expanded-2');
+        //buttonContainer.classList.remove('is-visible');
+        //buttonContainer.classList.add('is-hidden');
+        searchContainer.classList.remove('is-hidden');
+        searchContainer.classList.add('is-expanded');
+        searchContainer.classList.add('flex-container');
+
+
+    }
+
+    addButton.addEventListener('click', openSearch);
 }
 
 //Removal of styling/data when the 'view' modal is closed
