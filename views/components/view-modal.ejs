@@ -1,0 +1,81 @@
+<div class="modal" id="viewModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="alert modal-alert alert-success" role="alert">
+                Stock added to Favorites!
+            </div>
+
+            <div class="alert modal-alert alert-danger" role="alert">
+                Stock Removed from Favorites!
+            </div>
+            
+            <div class="modal-spinner-container">
+                <div class="spinner-border text-info" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+
+            <div class="container-fluid modal-upper-container">
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <h3 class="modal-title"></h3>
+                        <span class="modal-stock-name"></span>
+                        <span class="modal-stock-market"></span>
+ 
+                    </div>
+                    
+                    <div class="col-md-6">
+
+                        <div class="modal-stock-stats-container">
+                            <span class="modal-stock-price"></span>
+                            <span class="modal-stock-percent"></span>
+                        
+                        </div>
+                        
+
+                    </div>
+
+                </div>
+                
+            </div>
+            <div class="modal-stock-stats-bar">
+                
+                <div class="stock-stats-section">
+                    <span class="stock-stats-header stock-stats-header-year-high">52 Week High</span>
+                    <span class="stock-stats-stat-year-high"></span>
+                </div>
+                <div class="stock-stats-section">
+                    <span class="stock-stats-header stock-stats-header-year-low">52 Week Low</span>
+                    <span class="stock-stat stock-stats-stat-year-low"></span>
+                </div>
+                <div class="stock-stats-section">  
+                    <span class="stock-stats-header stock-stats-header-day-high">Day High</span>
+                    <span class="stock-stats stock-stats-stat-day-high"></span>
+                </div>
+                <div class="stock-stats-section">
+                    <span class="stock-stats-header stock-stats-header-day-low">Day Low</span>
+                    <span class="stock-stats stock-stats-stat-day-low"></span>
+                </div>
+        
+            </div>
+                 
+            <div class="modal-button-container">
+                <form class="stock-remove is-hidden" action="" method="POST">
+                    <input type="hidden" name="stock-searched" class="c-stock-input-remove"/>
+                    <button type="submit" class="c-search-remove-button btn btn-danger">
+                        Remove
+                    </button>
+                </form>
+                    
+                <form class="stock-add is-hidden" action="" method="POST">
+                    <input type="hidden" name="stock-searched" class="c-stock-input-add"/>
+                    <button type="submit" class="c-search-add-button btn btn-success">
+                        Add
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
