@@ -26,32 +26,50 @@ server.app.use(bodyParser.json());
 
 
 server.app.get('/dashboard', function(request, response) {
-    
-    // const apiMethod = {
-    //     'function': 'GLOBAL_QUOTE',
-    //     'Args': 'symbol'
-    // };
 
     var buildParams = {}
     var callType = 'single';
     buildParams.title = 'Stock-X - Your Stocks Now';
     buildParams.stockArray = [];
+    let tempList = [];
     
     //gets All Objects from the database collection 'favorites'
     db.getFavorites();
+    console.log("calledFavs");
 
     //event emitted when db get favorites returns
     db.events.once('endGetFavorites', function(results) {
-        console.log("second dash");
+
         //calls this event for every favorites object in the db
         let stocksArray = results.map(result => {
             return result.Stock;
         });
 
-        let stockList = stocksArray.join(',');
-        
-        console.log(callType);
-        apiCalls.searchStocks(callType, stockList);
+        //console.log(stocksArray);
+        for(let i = 0; i < stocksArray.length; i++) {
+
+            //console.log(i + 1);
+            //console.log(stocksArray[i]);
+            if((i+1) % 5 == 0 && i !== 0) {
+               tempList.push(stocksArray[i]);
+               let stockList = tempList.join(',');
+    
+                apiCalls.searchStocks(callType, stockList);
+                tempList = [];
+                //console.log(tempList);
+
+            }
+            else {
+                tempList.push(stocksArray[i]);
+                //console.log(tempList);
+            }
+
+            if( i+1 == stocksArray.length) {
+                let stockList = tempList.join(',');
+                apiCalls.searchStocks(callType, stockList);
+            }
+
+        }
 
         //Stores results of call to the build params object
         buildParams.results = results;
@@ -66,6 +84,7 @@ server.app.get('/dashboard', function(request, response) {
     //Event that builds favorite stocks object, then emits 'favorites' event
     apiCalls.events.on('endSingle', function(stockList) {
     
+        console.log(stockList);
         stockList['data'].forEach(stock => {
     
             //if stock data not correct throw error  here

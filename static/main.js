@@ -59,23 +59,29 @@ function RemoveStockListener() {
 function getModalElements() {
 
     let modalElement = {
+        stats: {
+            modalStockName:    document.querySelector('.modal-stock-name'),
+            modalStockMarket:  document.querySelector('.modal-stock-market'),
+            modalStockPercent: document.querySelector('.modal-stock-percent'),
+            modalPrice:        document.querySelector('.modal-stock-price'),
+            modalTitle:        document.querySelector('.modal-title'),
+            modalStockName:    document.querySelector('.modal-stock-name'),
+            modalStockMarket:  document.querySelector('.modal-stock-market'),
+            modalStockPercent: document.querySelector('.modal-stock-percent'),
+            modalPrice:        document.querySelector('.modal-stock-price'),
+            yearHighStat:      document.querySelector('.stock-stats-stat-year-high'),
+            yearLowStat:       document.querySelector('.stock-stats-stat-year-low'),
+            dayHighStat:       document.querySelector('.stock-stats-stat-day-high'),
+            dayLowStat:        document.querySelector('.stock-stats-stat-day-low'),
+        },
         removeInput:       document.querySelector('.c-stock-input-remove'),
-        removeButton:      document.querySelector('.stock-remove'),
+        removeButton:      document.querySelector('.modal-remove-button'),
         addInput:          document.querySelector('.c-stock-input-add'),
-        addButton:         document.querySelector('.stock-add'),
+        addButton:         document.querySelector('.modal-add-button'),
         spinner:           document.querySelector('.spinner-border'),
-        modalTitle:        document.querySelector('.modal-title'),
-        modalStockName:    document.querySelector('.modal-stock-name'),
-        modalStockMarket:  document.querySelector('.modal-stock-market'),
-        modalStockPercent: document.querySelector('.modal-stock-percent'),
-        modalPrice:        document.querySelector('.modal-stock-price'),
         removeAlert:       document.querySelector('.modal-alert.alert-danger'),
         addAlert:          document.querySelector('.modal-alert.alert-success'),
         stocksBar:         document.querySelector('.modal-stock-stats-bar'),
-        yearHighStat:      document.querySelector('.stock-stats-stat-year-high'),
-        yearLowStat:       document.querySelector('.stock-stats-stat-year-low'),
-        dayHighStat:      document.querySelector('.stock-stats-stat-day-high'),
-        dayLowStat:       document.querySelector('.stock-stats-stat-day-low'),
   
     };
 
@@ -87,11 +93,10 @@ function ViewResultModal() {
     var viewForms = document.querySelectorAll('.stock-view');
 
     const ViewStockHandler = function(e) {
-        console.log("meow");
-        e.preventDefault();
 
-        modalElement.removeButton.classList.remove('is-visible');
-        modalElement.removeButton.classList.add('is-hidden');
+        e.preventDefault();
+        modalElement = getModalElements();
+
         modalElement.stocksBar.style.display = "none";
 
         modalElement.modalPrice.textContent = "";
@@ -134,29 +139,28 @@ function PopulateModal(body) {
         //section to populate the values of the modal
         modalElement.addInput.value             = body['symbol'];
         modalElement.removeInput.value          = body['symbol'];
-        modalElement.modalTitle.textContent     = body['symbol'];
-        modalElement.modalStockName.textContent = body['name'];
-        modalElement.modalPrice.textContent     = body['price'];
-        modalElement.yearHighStat.textContent   = body['52_week_high'];   
-        modalElement.yearLowStat.textContent    = body['52_week_low'];   
-        modalElement.dayLowStat.textContent     = body['day_low'];
-        modalElement.dayHighStat.textContent     = body['day_high'];
+        modalElement.stats.modalTitle.textContent     = body['symbol'];
+        modalElement.stats.modalStockName.textContent = body['name'];
+        modalElement.stats.modalPrice.textContent     = body['price'];
+        modalElement.stats.yearHighStat.textContent   = body['52_week_high'];   
+        modalElement.stats.yearLowStat.textContent    = body['52_week_low'];   
+        modalElement.stats.dayLowStat.textContent     = body['day_low'];
+        modalElement.stats.dayHighStat.textContent    = body['day_high'];
         
         modalElement.stocksBar.style.display    = "block";
         if(body['change_pct']) {
             changePercentage = parseFloat(body['change_pct']);
             
             if(changePercentage >= 0) {
-                modalElement.modalStockPercent.textContent  = body['change_pct'];
-                modalElement.modalStockPercent.style.color  = "green";
+                modalElement.stats.modalStockPercent.textContent  = body['change_pct'];
+                modalElement.stats.modalStockPercent.style.color  = "green";
             }
             else {
-                modalElement.modalStockPercent.textContent = body['change_pct'];
-                modalElement.modalStockPercent.style.color = "red";
+                modalElement.stats.modalStockPercent.textContent = body['change_pct'];
+                modalElement.stats.modalStockPercent.style.color = "red";
             }
         }
-        modalElement.modalStockMarket.textContent   = body['stock_exchange_long'];
-        
+        modalElement.stats.modalStockMarket.textContent   = body['stock_exchange_long'];
         modalElement.addButton.classList.add('is-visible');
     }
 
@@ -175,26 +179,22 @@ function PopulateModal(body) {
 
 function OpenSearchBox() {
 
-    let addButton = document.querySelector('.c-favorite_add-button'),
+    let addButton       = document.querySelector('.c-favorite_add-button'),
         buttonContainer = document.querySelector('.c-favorite_add-circle'),
-        searchContainer = document.querySelector('.c-favorite_search-container'),
-        input  = searchContainer.querySelector('.c-header_search input');
+        searchContainer = document.querySelector('.c-favorite_search-container');
+        //input  = searchContainer.querySelector('.c-header_search input');
 
     var openSearch = function() {
         addButton.classList.add('is-hidden');
         addButton.classList.remove('is-visible');
-        // input.classList.add('is-visible');
-        // input.classList.add('is-expanded-2');
-        //buttonContainer.classList.remove('is-visible');
-        //buttonContainer.classList.add('is-hidden');
         searchContainer.classList.remove('is-hidden');
         searchContainer.classList.add('is-expanded');
-        searchContainer.classList.add('flex-container');
-
 
     }
 
-    addButton.addEventListener('click', openSearch);
+    if(addButton) {
+        addButton.addEventListener('click', openSearch);
+    }
 }
 
 //Removal of styling/data when the 'view' modal is closed
@@ -206,9 +206,10 @@ $('#viewModal').on('hidden.bs.modal', function(e) {
     modalElement.addAlert.style.display = "none";
     modalElement.removeAlert.style.display = "none";
 
-    for( var key in modalElement) {
-        console.log(modalElement[key]);
-        modalElement[key].textContent = "";
+    for( var key in modalElement.stats) {
+       
+        console.log("made it here");
+        modalElement.stats[key].textContent = "";
     }
 
 });

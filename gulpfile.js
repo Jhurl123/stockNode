@@ -22,7 +22,7 @@ const SOURCE = {
     // ],
 
 	// Scss files will be concantonated, minified if ran with --production
-	styles: 'static/styles/**/*.scss',
+	styles: 'assets/scss/**/*.scss',
 	root: './**/*'
     
 };
