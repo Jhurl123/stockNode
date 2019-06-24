@@ -6,18 +6,68 @@
 <div class="container">
     <div class="row">
         <% for(var i=0; i < buildParams.stockArray.length; i++) { %>
-            <div class="col-sm-12 col-md-6 col-lg-4">
-                <div class="c-favorite_card">
+            
+            <div class="col-sm-12 col-md-6 col-lg-4 c-favorite_column">
+                <div class="c-favorite_card" id="c-favorite_card" data-toggle="modal" data-target="#viewModal" data-symbol="<%= buildParams.stockArray[i]['symbol']; %>">
+                    <div class="row">
+                    
+                        <div class="col-sm-6 c-favorite_card-half">
+                            <h3 class="c-favorite_card-headline">
+                                <%= buildParams.stockArray[i]['symbol']; %>
+                            </h3>
 
-                        <%= buildParams.stockArray[i].symbol; %>
+                            <h4 class="c-favorite_card-name">
+                                <%= buildParams.stockArray[i]['name']; %>
+                            </h4>
+                        </div>
+                            
+                        <div class="col-sm-6 c-favorite_card-half">
+                            
+                            <span class="c-favorite_card-percent">
+                                    <%= buildParams.stockArray[i]['percentChange']; %>
+                            </span>
 
-                        <%= buildParams.stockArray[i].percentChange; %>
+                        </div>
+                    </div>
+                            <div class="c-favorite_card-stats">
+                                <div class="row">
 
-                        <%= buildParams.stockArray[i].high; %>
+                                    <div class="col-sm-4">
+                                        <span class="c-favorite_card-subtitle">Open</span>
+                                        <span class="c-favorite_card-open c-favorite_card-stat">
+                                                <%= buildParams.stockArray[i]['open']; %>
+                                        </span>
+                                    </div>
+
+                                    <div class="col-sm-4">
+                                        <span class="c-favorite_card-subtitle">Day High</span>
+                                        <span class="c-favorite_card-day-high c-favorite_card-stat">
+                                                <%= buildParams.stockArray[i]['dayHigh']; %>
+                                        </span>
+                                    </div>
+
+                                    <div class="col-sm-4">
+                                        <span class="c-favorite_card-subtitle">Day Low</span>
+                                        <span class="c-favorite_card-day-low c-favorite_card-stat">
+                                                <%= buildParams.stockArray[i]['dayLow']; %>
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <form class="stock-view" action="" method="POST">
+                                <input type="hidden" name="stock-searched" class="c-stock-input" value="<%= buildParams.stockArray[i]['symbol']; %>"/>
+                                <!-- <button type="submit" class="c-favorite_card-view-button btn btn-success btn-sm" data-toggle="modal" data-target="#viewModal">
+                                    View
+                                </button> -->
+                            </form>
+
                 </div>
             </div>
         <% }%>
-        <div class="col-sm-12 col-md-6 col-lg-4">
+
+        <div class="col-sm-12 col-md-6 col-lg-4 c-favorite_column">
             <div class="c-favorite_add-circle is-visible">
 
                 <button class="c-favorite_add-button">

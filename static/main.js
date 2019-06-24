@@ -4,6 +4,8 @@ AddStockListener();
 RemoveStockListener();
 ViewResultModal();
 OpenSearchBox();
+favoriteCardColors();
+
 var modalElement = getModalElements();
 
 // function to call use AJAX to sumbit the stock to the backend to get data
@@ -12,10 +14,17 @@ function AddStockListener() {
     var addStockForms = document.querySelectorAll('.stock-add');
 
     const addStockHandler = function(e) {
+
         e.preventDefault();
         let notification = document.querySelector('.alert-success');
+        modalElement.removeAlert.style.display = "none";
         notification.style.display="block";
 
+        modalElement.addButton.classList.remove('is-visible');
+        modalElement.removeButton.classList.remove('is-hidden');
+        modalElement.addButton.classList.add('is-hidden');
+        modalElement.removeButton.classList.add('is-visible');
+    
         stock = e.target.querySelector('.c-stock-input-add').value;
 
         var xmlhttp = new XMLHttpRequest();
@@ -37,11 +46,27 @@ function RemoveStockListener() {
 
     var removeStockForms = document.querySelectorAll('.stock-remove');
     const removeStockHandler = function(e) {
+
+
         e.preventDefault();
+
+        modalElement.addAlert.style.display = "none";
+
+        if(!document.querySelector('.c-favorite_card')) {
+            modalElement.addButton.classList.remove('is-hidden');
+            modalElement.addButton.classList.add('is-visible');
+        }
+        modalElement.removeButton.classList.remove('is-visible');
+        modalElement.removeButton.classList.add('is-hidden');
 
         let alert = document.querySelector('.alert-danger');
         alert.style.display = "block";
-        let stock = e.target.querySelector('.c-stock-input-remove').value;
+        let stock = e.target.querySelector('.c-stock-input-remove').value
+
+
+        let favoriteCard = document.querySelector('[data-symbol="' + stock + '"]');
+        favoriteCard.parentElement.remove();
+        console.log(favoriteCard);
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.open("POST", "/removeStock");
         xmlhttp.setRequestHeader("Content-Type", "application/json");
@@ -88,19 +113,21 @@ function getModalElements() {
     return modalElement;
 }
 
+
 function ViewResultModal() {
 
     var viewForms = document.querySelectorAll('.stock-view');
 
-    const ViewStockHandler = function(e) {
+    let ViewStockHandler = function(e) {
 
         e.preventDefault();
-        modalElement = getModalElements();
-
+        console.log("poopy");
+        modalElement = getModalElements();  
+    
         modalElement.stocksBar.style.display = "none";
-
-        modalElement.modalPrice.textContent = "";
-        modalElement.modalTitle.textContent = "";
+    
+        modalElement.stats.modalPrice.textContent = "";
+        modalElement.stats.modalTitle.textContent = "";
         modalElement.spinner.style.display = "block";
         
         stock = e.target.querySelector('.c-stock-input').value;
@@ -109,15 +136,15 @@ function ViewResultModal() {
         xmlhttp.open("POST", "/viewStock");
         xmlhttp.setRequestHeader("Content-Type", "application/json");
         xmlhttp.send(JSON.stringify({"Stock": stock}));
-
+    
         xmlhttp.onload = function () {
-
+    
             if(xmlhttp.status === 200) {
                 console.log(xmlhttp.response);
                 PopulateModal(xmlhttp.response);
             
             }
-
+    
         };
     };
 
@@ -150,15 +177,12 @@ function PopulateModal(body) {
         modalElement.stocksBar.style.display    = "block";
         if(body['change_pct']) {
             changePercentage = parseFloat(body['change_pct']);
+
+            let color = determinePercent(changePercentage);
             
-            if(changePercentage >= 0) {
-                modalElement.stats.modalStockPercent.textContent  = body['change_pct'];
-                modalElement.stats.modalStockPercent.style.color  = "green";
-            }
-            else {
-                modalElement.stats.modalStockPercent.textContent = body['change_pct'];
-                modalElement.stats.modalStockPercent.style.color = "red";
-            }
+            modalElement.stats.modalStockPercent.style.color  = color;
+            modalElement.stats.modalStockPercent.textContent  = body['change_pct'];
+            
         }
         modalElement.stats.modalStockMarket.textContent   = body['stock_exchange_long'];
         modalElement.addButton.classList.add('is-visible');
@@ -172,8 +196,41 @@ function PopulateModal(body) {
     }
     else {
         modalElement.removeButton.classList.remove('is-visible');
+        
     }
 
+
+}
+
+// return green or red of percentage
+function determinePercent(percentage) {
+
+    let color = "";
+
+    if(percentage >= 0) {
+        color = "green";
+    }
+    else {
+        color ="red";
+    }
+
+    return color;
+}
+
+function favoriteCardColors() {
+
+    let percentChange = document.querySelectorAll('.c-favorite_card-percent');
+
+    console.log(percentChange);
+
+    percentChange = Array.prototype.slice.call(percentChange).map(percent => {
+
+        let percentText = percent.textContent;
+        let percentNum = parseFloat(percentText);
+        let color = determinePercent(percentNum);
+        percent.style.color = color;
+
+    });
 
 }
 
@@ -182,13 +239,15 @@ function OpenSearchBox() {
     let addButton       = document.querySelector('.c-favorite_add-button'),
         buttonContainer = document.querySelector('.c-favorite_add-circle'),
         searchContainer = document.querySelector('.c-favorite_search-container');
-        //input  = searchContainer.querySelector('.c-header_search input');
+        searchInput     = document.querySelector('.c-header_form input');
 
+        //console.log(input);
     var openSearch = function() {
         addButton.classList.add('is-hidden');
         addButton.classList.remove('is-visible');
         searchContainer.classList.remove('is-hidden');
         searchContainer.classList.add('is-expanded');
+        searchInput.focus();
 
     }
 
@@ -197,12 +256,67 @@ function OpenSearchBox() {
     }
 }
 
+favoriteCardListener();
+function favoriteCardListener() {
+
+    let cards = document.querySelectorAll('.c-favorite_card');
+
+    [].forEach.call(cards,function(em) {
+        em.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            let ViewStockHandler = function(e) {
+
+                e.preventDefault();
+                console.log("poopy");
+                modalElement = getModalElements();  
+            
+                modalElement.stocksBar.style.display = "none";
+            
+                modalElement.stats.modalPrice.textContent = "";
+                modalElement.stats.modalTitle.textContent = "";
+                modalElement.spinner.style.display = "block";
+                
+                stock = e.target.querySelector('.c-stock-input').value;
+                
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.open("POST", "/viewStock");
+                xmlhttp.setRequestHeader("Content-Type", "application/json");
+                xmlhttp.send(JSON.stringify({"Stock": stock}));
+            
+                xmlhttp.onload = function () {
+            
+                    if(xmlhttp.status === 200) {
+                        console.log(xmlhttp.response);
+                        PopulateModal(xmlhttp.response);
+                    
+                    }
+            
+                };
+            };
+            
+            if(e.currentTarget.id === 'c-favorite_card') {
+
+                console.log(e.currentTarget);
+
+                let form = e.currentTarget.querySelector('.stock-view');
+                console.log(form);
+                form.dispatchEvent(new Event('submit'));
+            }
+        });
+    });
+
+
+}
+
 //Removal of styling/data when the 'view' modal is closed
 $('#viewModal').on('hidden.bs.modal', function(e) {
 
     //remove visible styles so that they can be determined on modal popup
     modalElement.removeButton.classList.remove('is-visible');
+    modalElement.removeButton.classList.add('is-hidden');
     modalElement.addButton.classList.remove('is-visible');
+    modalElement.addButton.classList.add('.is-hidden');
     modalElement.addAlert.style.display = "none";
     modalElement.removeAlert.style.display = "none";
 

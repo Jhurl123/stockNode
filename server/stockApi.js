@@ -96,7 +96,7 @@ exports.searchStocks = function(type, symbol) {
                         emitter.emit('endModal', stock);
                     }
                     else if(stock && type  === 'single') {
-                        console.log("endSingle");
+                        console.log(stock);
                         emitter.emit('endSingle', stock);
                     }
                     else {

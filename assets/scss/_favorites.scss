@@ -2,10 +2,62 @@
     
     &_card {
         background: #fff;
-        padding: 5rem 2rem;
-        text-align: center;
         border-radius: 4px;
-        margin: 1em 1em;
+        margin: 1em .5em;
+        cursor: pointer;
+
+        .row {
+            padding: .5rem;
+        }
+
+        &-headline {
+            display: inline-block;
+            font-size: 1.9rem;
+        }
+    
+        &-name {
+            display: block;
+            font-size: .875rem;
+            word-break: break-all;
+        }
+    
+        &-stats {
+            width: 100%;
+            padding: 0 .5rem .5rem .5rem;
+            background-color: #c0b8b8;
+            color: #ffff;
+
+            .row {
+                margin: 0;
+            }
+        }
+
+        &-price {
+            display: block;
+        }
+        
+        &-percent {
+            display: block;
+            font-size: 2.5rem;
+
+        }
+
+        &-subtitle {
+            display: block;
+        }
+
+        &-half {
+            text-align: center;
+        }
+
+        &-stat {
+
+        }
+    }
+    
+    &_column {
+        min-height: 30vh;
+        
     }
 
     &_add-circle {
@@ -67,6 +119,5 @@
         }
 
     }
-
 
 }

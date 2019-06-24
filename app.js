@@ -45,26 +45,21 @@ server.app.get('/dashboard', function(request, response) {
             return result.Stock;
         });
 
-        //console.log(stocksArray);
         for(let i = 0; i < stocksArray.length; i++) {
-
-            //console.log(i + 1);
-            //console.log(stocksArray[i]);
             if((i+1) % 5 == 0 && i !== 0) {
                tempList.push(stocksArray[i]);
                let stockList = tempList.join(',');
     
                 apiCalls.searchStocks(callType, stockList);
                 tempList = [];
-                //console.log(tempList);
-
+                
             }
             else {
                 tempList.push(stocksArray[i]);
-                //console.log(tempList);
+                
             }
-
-            if( i+1 == stocksArray.length) {
+            
+            if( i+1 == stocksArray.length && tempList.length > 0) {
                 let stockList = tempList.join(',');
                 apiCalls.searchStocks(callType, stockList);
             }
@@ -84,7 +79,6 @@ server.app.get('/dashboard', function(request, response) {
     //Event that builds favorite stocks object, then emits 'favorites' event
     apiCalls.events.on('endSingle', function(stockList) {
     
-        console.log(stockList);
         stockList['data'].forEach(stock => {
     
             //if stock data not correct throw error  here
@@ -96,7 +90,11 @@ server.app.get('/dashboard', function(request, response) {
                 'symbol': stock['symbol'],
                 'name':  stock['name'],
                 'percentChange': stockPercentage,
-                'high': stockHigh
+                'high': stockHigh,
+                'price': stock['price'],
+                'open': stock['price_open'],
+                'dayHigh': stock['day_high'],
+                'dayLow': stock['day_low']
             };
 
             //TODO loop throigh here and
@@ -217,22 +215,22 @@ server.app.post('/viewStock', function(request, response) {
     });
 
     apiCalls.events.once('endModal', function(stock) {
-
-        console.log(stock);
       
-        let stockHigh       = stock['data'][0]['day_high'];
-        stockHigh           = parseFloat(stockHigh, 10);
-        let stockStats = stock['data'][0];
-       
-        for(let i = 0; i < buildParams.favorites.length; i++) {
-            if(stockStats['symbol'] == buildParams.favorites[i].Stock ) {
-                stockStats.present = 'yes'
-                break;
+        if(stock) {
+            let stockHigh       = stock['data'][0]['day_high'];
+            stockHigh           = parseFloat(stockHigh, 10);
+            let stockStats = stock['data'][0];
+        
+            for(let i = 0; i < buildParams.favorites.length; i++) {
+                if(stockStats['symbol'] == buildParams.favorites[i].Stock ) {
+                    stockStats.present = 'yes'
+                    break;
+                }
             }
-        }
 
-        response.writeHead(200, { 'Content-Type': 'application/json' });  
-        response.end(JSON.stringify(stockStats), "utf-8"); 
+            response.writeHead(200, { 'Content-Type': 'application/json' });  
+            response.end(JSON.stringify(stockStats), "utf-8"); 
+        }
 
     })
 
